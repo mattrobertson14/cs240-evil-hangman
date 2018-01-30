@@ -66,6 +66,7 @@ public class EvilHangmanGame implements IEvilHangmanGame {
 
 	public Set<String> makeGuess(char guess) throws IEvilHangmanGame.GuessAlreadyMadeException{
 
+
     // Create new exception to throw if guess has already been made
     IEvilHangmanGame.GuessAlreadyMadeException ex = new IEvilHangmanGame.GuessAlreadyMadeException();
 
@@ -77,7 +78,6 @@ public class EvilHangmanGame implements IEvilHangmanGame {
     // Create new map every guess to run evil hangman algorithm
     Map<String, TreeSet<String>> map = new HashMap<String, TreeSet<String>>();
     TreeSet<String> set; // set variable to be used inside the for loop
-
     // Evil Hangman Algorithm. This is where the map is created
     for (String s : words){
       String key = getPattern(s, guess);
@@ -126,13 +126,16 @@ public class EvilHangmanGame implements IEvilHangmanGame {
         } else if (x == y){
           int m = 0;
           int n = 0;
+          int p = 1;
           while(m == n){
-            m = getRightMostPosition(entry.getKey(), guess);
-            n = getRightMostPosition(words.first(), guess);
+            m = getRightMostPosition(entry.getKey(), guess, p);
+            n = getRightMostPosition(words.first(), guess, p);
 
             if (m < n){
               words = entry.getValue();
               wordSoFar = entry.getKey();
+            } else {
+              p++;
             }
           }
         }
@@ -184,12 +187,16 @@ public class EvilHangmanGame implements IEvilHangmanGame {
     return total;
   }
 
-  public int getRightMostPosition(String word, char character){
+  public int getRightMostPosition(String word, char character, int num){
     int index = 0;
+    int count = 0;
     char[] arr = word.toCharArray();
     for (int i = arr.length-1; i >= 0; i--){
       index++;
       if (arr[i] == character){
+        count++;
+      }
+      if (arr[i] == character && num == count){
         return index;
       }
     }

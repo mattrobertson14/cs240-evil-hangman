@@ -42,8 +42,8 @@ public class Main {
       while (!correctFormat){
         System.out.print("Enter Guess: ");
         if (scanner.hasNext("[a-zA-Z]")){
-          guess = scanner.next();
-          guess.toLowerCase();
+          guess = scanner.next().toLowerCase();
+          scanner.nextLine();
           try{
             words = game.makeGuess(guess.charAt(0));
           } catch(IEvilHangmanGame.GuessAlreadyMadeException ex) {
